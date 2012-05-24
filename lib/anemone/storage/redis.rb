@@ -9,7 +9,8 @@ module Anemone
       def initialize(opts = {})
         @redis = ::Redis.new(opts)
         @key_prefix = opts[:key_prefix] || 'anemone'
-        keys.each { |key| delete(key) }
+        # HACK: Do not remove already crawled pages
+        # keys.each { |key| delete(key) }
       end
 
       def [](key)
@@ -41,6 +42,10 @@ module Anemone
           page = rget(rkey)
           yield page.url.to_s, page
         end
+      end
+
+      def get(rkey)
+        rget(rkey)
       end
 
       def merge!(hash)

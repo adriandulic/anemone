@@ -180,7 +180,8 @@ module Anemone
     # Allowed to connect to the requested url?
     #
     def allowed?(to_url, from_url)
-      to_url.host.nil? || (to_url.host == from_url.host)
+      # HACK: Match foo.com and *.foo.com as the same website
+      to_url.host.nil? || (to_url.host == from_url.host) || (to_url.host =~ /\.#{from_url.host}$/i)
     end
 
   end

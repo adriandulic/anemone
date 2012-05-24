@@ -40,6 +40,12 @@ module Anemone
           raise GenericError, $!
       end
 
+      def get(rkey)
+        @adap.get(rkey)
+        rescue
+          raise GenericError, $!
+      end
+
       def merge!(hash)
         @adap.merge!(hash)
         rescue
